@@ -1,42 +1,31 @@
-import {useState, useEffect } from "react"
 import TodoItem from "./TodoItem"
-function getMultipleRandom(arr, num) {
-    const shuffled = [...arr].sort(() => 0.5 - Math.random());
-  
-    return shuffled.slice(0, num);
-  }
-export default function Todos() {
-    const [loadedTodos, setLoadedTodos] = useState([])
-        useEffect(() => {
-            async function fetchTodos() {
-                const response = await fetch('https://jsonplaceholder.typicode.com/todos')
-    
-             if (!response.ok) {
+import Button from "./Button";
 
-                }
-                const todos = await response.json()
-                setLoadedTodos(getMultipleRandom(todos, 10)
-                .sort((a, b) => {
-                    if (a.title < b.title) {
-                      return -1;
-                    }
-                    if (a.title > b.title) {
-                      return 1;
-                    }
-                    return 0;
-                  }))
-            }
-                fetchTodos()
-        }, [])
-    // return (<ul id="todos">{loadedTodos.map(todos => <li key={todos.id}>{todos.title}</li>)}</ul>)
+export default function Todos({todos, onSelectTodo}) {
+  console.log(todos)
     return (
       <div>
         <h2>TO-DO</h2>
-        <ul id="todos">{loadedTodos
-        .map((todo) => (<TodoItem key={todo.id} todo={todo}/>))}</ul>
-        <h2>DONE</h2>
-        <ul id="todos">{loadedTodos
+        <ul id="todos">{todos
+        .map((todo) => {
+          return (        
+          <li className="todo-item" key={todo.id}>
+            <article>
+              <div>
+                <h3>@{todo.userId}</h3>
+                <h3>#{todo.id}</h3>
+                <h3>{todo.title}</h3>
+                <h3>{todo.completed}</h3>
+                <Button onClick={() => onSelectTodo(todo.id)}>編集</Button>
+              </div>
+            </article>
+          </li>
+        );
+        })}
+        </ul>
+         <h2>DONE</h2>
+        <ul id="todos">{todos
         .filter((todo) => todo.completed)
-        .map((todo) => (<TodoItem key={todo.id} todo={todo}/>))}</ul>        
+        .map((todo) => (<TodoItem key={todo.id} todo={todo}/>))}</ul>         
       </div>)
 }
