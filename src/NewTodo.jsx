@@ -1,15 +1,12 @@
 import { useRef } from "react";
 import Modal from "./Modal";
 import Input from "./Input"
-export default function NewTodo({onAdd}) {
+import Button from "./Button";
+export default function NewTodo({onAdd, onCancel}) {
     const userId = useRef();
     const id = useRef();
     const title = useRef();
     const modal = useRef();
-
-    function checkDuplicatedID(input) {
-
-    }
 
     function validateNumber(input) {
         const regex = /^\d+$/; // Regular expression for digits only
@@ -20,6 +17,7 @@ export default function NewTodo({onAdd}) {
         const enteredUserId = userId.current.value;
         const enteredId = id.current.value;
         const enteredTitle = title.current.value;
+        const enteredCompleted = false
 
         if (!validateNumber(enteredId) || !validateNumber(enteredUserId)) {
             modal.current.open();
@@ -27,14 +25,11 @@ export default function NewTodo({onAdd}) {
         }
 
         onAdd({
-            userId: enteredUserId,
-            id: enteredId,
-            title: enteredTitle
+            userId: parseInt(enteredUserId),
+            id: parseInt(enteredId),
+            title: enteredTitle,
+            completed: enteredCompleted
         })
-    }
-
-    function handleCancel() {
-        
     }
 
     return (
@@ -44,16 +39,15 @@ export default function NewTodo({onAdd}) {
                 <p>ID is only in number !!!</p>
             </Modal>
             <div>
-                <menu>
-                    <li><button>キャンセル</button></li>
-                    <li><button onClick={handleSave}>保存</button></li>
-                </menu>
+                <article className="todo-item">
                 <div>
-                    <Input ref={userId} label="ユーザー ID" />
                     <Input ref={id} label="ID" />
+                    <Input ref={userId} label="ユーザー ID" />
                     <Input ref={title} label="タイトル" />
-                    <Input label="完了" />
+                    <Button onClick={handleSave}> 保存</Button>
+                    <Button onClick={onCancel}>キャンセル</Button>
                 </div>
+                </article>
             </div>
         </>
     )
