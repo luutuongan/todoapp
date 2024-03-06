@@ -28,8 +28,8 @@ export default function Todos({todos, onSelectTodo, onDeleteTodo}) {
                 <h3>ユーザー{todo.userId}</h3>
                 <h3>{todo.title}</h3>
                 <h3 style={{ color: renderColorCompleted(todo.completed) }}>{checkCompleted(todo.completed)}</h3>
-                <Button onClick={() => onSelectTodo(todo.id)}>編集</Button>
-                <Button onClick={() => onDeleteTodo(todo.id)}>削除</Button>
+                <button className="button" onClick={() => onSelectTodo(todo)}>編集</button>
+                <button className="button-del" style={{marginTop: "12px", marginLeft: "10px"}}onClick={() => onDeleteTodo(todo)}>削除</button>
               </div>
             </article>
           </li>
@@ -48,8 +48,8 @@ export default function Todos({todos, onSelectTodo, onDeleteTodo}) {
                 <h3>ユーザー{todo.userId}</h3>
                 <h3>{todo.title}</h3>
                 <h3 style={{ color: renderColorCompleted(todo.completed) }}>{checkCompleted(todo.completed)}</h3>
-                <Button onClick={() => onSelectTodo(todo.id)}>編集</Button>
-                <Button onClick={() => onDeleteTodo(todo.id)}>削除</Button>
+                <button className="button" onClick={() => onSelectTodo(todo)}>編集</button>
+                <button className="button-del" style={{marginTop: "12px", marginLeft: "10px"}}onClick={() => onDeleteTodo(todo)}>削除</button>
               </div>
             </article>
           </li>
