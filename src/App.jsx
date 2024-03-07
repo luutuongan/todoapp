@@ -5,7 +5,8 @@ import Todos from './Todos.jsx'
 import NewTodo from './NewTodo.jsx';
 import SelectedTodo from './SelectedTodo.jsx';
 import Button from "./Button.jsx";
-import Modal from "./Modal.jsx";
+
+import ModalAlert from "./ModalAlert.jsx";
 function getMultipleRandom(arr, num) {
   const shuffled = [...arr].sort(() => 0.5 - Math.random());
 
@@ -61,19 +62,20 @@ function App() {
         return {
           ...prevState,
           todos: prevState.todos.concat(getMultipleRandom(todos, 10)
-          .sort((a, b) => {
-              if (a.title < b.title) {
-                return -1;
-              }
-              if (a.title > b.title) {
-                return 1;
-              }
-              return 0;
-            }))
+          )
         }
       })
   }
       fetchTodos()
+      modalCongrats.current.open()
+  }
+
+  function handleFetchClick() {
+    if (window.confirm("Bạn có chắc chắn muốn lấy thêm 10 to-do mẫu không?")) {
+      handleFetchTodos();
+    } else {
+      console.log("Hành động đã bị hủy!");
+    }
   }
 
   function handleDeleteClick(id) {
@@ -86,7 +88,7 @@ function App() {
 
   function handleCancelClick() {
     if (window.confirm("Bạn có chắc chắn muốn thực hiện hành động này?")) {
-      handleCompleted();
+      handleCancelTodo();
     } else {
       console.log("Hành động đã bị hủy!");
     }
@@ -119,15 +121,15 @@ function App() {
         todos: [...prevState.todos, newTodo],
       }
     })
+    modalCongrats.current.open()
     }
     else {setTodosState(prevState => {
       
       return {
         ...prevState,
-        selectedTodoId: undefined
       }
     })
-    modalCongrats.current.open()
+    modalValidateExistedID.current.open()
   }
     
 
@@ -145,7 +147,6 @@ function App() {
       console.log(querySelectedTodo)
       return {
         ...prevState,
-        selectedTodoId: undefined,
         todos: prevState.todos.map((todo) => {
           if (todo.id === querySelectedTodo.id)
           {return editedTodo}
@@ -175,6 +176,7 @@ function App() {
 
   function handleSelectTodo(todo) {
       setTodosState((prevState) => {
+        console.log(todosState)
         return {
           ...prevState,
           selectedTodoId: todo.id
@@ -195,7 +197,7 @@ function App() {
   console.log(todosState)
   const selectedTodo = todosState.todos.find(todo => todo.id === todosState.selectedTodoId)
   //console.log(selectedTodo)
-  let content = <SelectedTodo todo={selectedTodo} onEditTodo={handleEditTodo} onDeleteTodo={handleDeleteClick} onCancel={handleCancelTodo}/>;
+  let content = <SelectedTodo todo={selectedTodo} onEditTodo={handleEditTodo} onDeleteTodo={handleDeleteClick} onCancel={handleCancelClick}/>;
   //let content;
 
   if (todosState.selectedTodoId === null) {
@@ -203,26 +205,27 @@ function App() {
   } else if (todosState.selectedTodoId === undefined) {
     content = <NoTodoSelected onStartAddTodo={handleStartAddTodo}/>;
   }
+
   return (
     
     <main>
       <Header/>
       <h2>Lưu ý</h2>
-      <p>Mặc định sẽ có sẵn 10 To-Do mẫu,</p>
-      <p>Bấm nút này nếu bạn muốn xin thêm chục con To-Do mẫu nữa nhé</p>
-      <Button visibility= "hidden" onClick={handleFetchTodos}>GET MORE 10 EXAMPLES</Button>
+      <p>Mặc định sẽ có sẵn 10 To-Do mẫu sắp xếp theo thứ tự từ điển,</p>
+      <p>Bấm nút này nếu bạn muốn lấy thêm chục con To-Do mẫu nữa từ API nhé</p>
+      <button className="button-del" visibility= "hidden" onClick={handleFetchClick}>APIからさらに10個のアイテムを取得します</button>
       {content}
-      <Modal ref={modalValidateExistedID} buttonCaption="OK">
+      <ModalAlert ref={modalValidateExistedID} buttonCaption="確認">
                 <h2>検証</h2>
-                <p>ID existed !!!</p>
-            </Modal>
-            <Modal ref={modalCongrats} buttonCaption="OK">
+                <p>ID To-Do đã tồn tại, hãy nhập số khác !!!</p>
+      </ModalAlert>
+      <ModalAlert ref={modalCongrats} buttonCaption="確認">
                 <h2>検証</h2>
-                <p>chúc mừng</p>
-            </Modal>
+                <p>Thao tác thành công</p>
+      </ModalAlert>
       <Todos todos={todosState.todos}
-      onSelectTodo={handleSelectTodo}
-      onDeleteTodo={handleDeleteClick}                    
+      onEditTodo={handleEditTodo}
+      onDeleteTodo={handleDeleteClick}                 
       /> 
     </main>
   );

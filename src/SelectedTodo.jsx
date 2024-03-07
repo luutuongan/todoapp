@@ -1,6 +1,5 @@
-import { useRef } from "react";
-import Input from "./Input";
-import Modal from "./Modal";
+import { useState, useRef } from "react";
+import ModalAlert from "./ModalAlert";
 
 function checkCompleted(completed) {
     if (completed) {
@@ -21,9 +20,31 @@ export default function SelectedTodo({todo, onEditTodo, onDeleteTodo, onCancel})
     console.log(todo)
     const modalConfirm = useRef();
     const modalValidate = useRef();
-    const userId = useRef();
-    const id = useRef();
-    const title = useRef();
+    const [todoUpdate, setTodoState] = useState({
+      userId: todo.userId,
+      title: todo.title
+    });
+    console.log("todo props from parent")
+    console.log(todo)
+    console.log("initial state:")
+    console.log(todoUpdate)
+    const handleTodoChange = (event) => {
+      const { name, value } = event.target;
+      console.log("event.target")
+      console.log(event.target.value)
+      console.log("prev state:")
+      console.log(todoUpdate)
+      setTodoState((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+      console.log("new state:")
+      console.log(todoUpdate)
+    };
+    console.log("new value")
+    console.log(todoUpdate)
+    const id = todo.id;
+    
     let enteredCompleted = todo.completed;
 
     function handleConfirmClick() {
@@ -67,18 +88,13 @@ export default function SelectedTodo({todo, onEditTodo, onDeleteTodo, onCancel})
     }
 
     function handleSave() {
-        var enteredUserId = todo.userId;
-        var enteredTitle = todo.title;
-        //var enteredCompleted = completed.current.checked
-
-        // if (completed.current.value === "false") {
-        //     enteredCompleted = false
-        // }
+        // var enteredUserId = todo.userId;
+        // var enteredTitle = todo.title;
+        var enteredUserId = parseInt(todoUpdate.userId);
+        var enteredTitle = todoUpdate.title;
         console.log("start handle save")
-        //console.log("completed value from select box")
-        //console.log((completed.current.value))
-        //console.log((completed.current.checked))
         console.log(todo)
+        console.log("entered userId test")
         const enteredId = todo.id;  
         
         function validateNumber(input) {
@@ -87,23 +103,26 @@ export default function SelectedTodo({todo, onEditTodo, onDeleteTodo, onCancel})
           }
 
         
-        if (userId.current.value !== "") { // nếu không nhập thông tin mới
-            enteredUserId = userId.current.value 
+        if (todoUpdate.userId !== undefined) { // nếu nhập thông tin mới
+            enteredUserId = todoUpdate.userId
+            console.log("entered userId")
             console.log(enteredUserId)
+            console.log("checking userID")
             if (!validateNumber(enteredUserId)) {
-                console.log("checking userID")
+                
                 console.log(enteredUserId)
+                console.log("ID not number")
                 modalValidate.current.open();
                 return;
             }
         }
         
-        if (title.current.value !== "") {
-            enteredTitle = title.current.value
+        if (todoUpdate.title !== "") {
+            enteredTitle = todoUpdate.title
         }
 
         onEditTodo({
-            userId: enteredUserId,
+            userId: parseInt(enteredUserId),
             id: enteredId,
             title: enteredTitle,
             completed: enteredCompleted
@@ -111,44 +130,46 @@ export default function SelectedTodo({todo, onEditTodo, onDeleteTodo, onCancel})
 
         
     }
-
+    
     return (
     <>
 
-            <Modal ref={modalValidate} buttonCaption="OK">
-                <h2>検証</h2>
-                <p>ID is only in number !!!</p>
-            </Modal>
-            <Modal ref={modalConfirm} buttonCaption="OK">
-                <h2>検証</h2>
-                <p>ARE YOU SURE</p>
-            </Modal>
+        <ModalAlert ref={modalValidate} buttonCaption="確認">
+        <h2>検証</h2>
+        <p>Vui lòng nhập ID dưới dạng số !!!</p>
+    </ModalAlert>
+    <ModalAlert ref={modalConfirm} buttonCaption="確認">
+        <h2>検証</h2>
+        <p>ARE YOU SURE</p>
+    </ModalAlert>
     <div>
         <header>
         <article className="todo-item">
-            <div>
+        <div>
                 <p>                    
                 <label >タスク ID:</label>     
-                <input style={{marginLeft: "47px", width: "200px"}} ref={id} disabled value={todo.id}/>        
+                <input style={{marginLeft: "46px", width: "200px"}} disabled value={todo.id}/>
+                <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14, color:"#1d1a16", pointerEvents: "none"}}>リセット</button>        
                 </p>
                 <p>
                 <label >ユーザー ID:</label>
-                <input style={{marginLeft: "30px", width: "200px"}} ref={userId} defaultValue={todo.userId} />
+                <input style={{marginLeft: "30px", width: "200px"}} name="userId" value={todoUpdate.userId} onChange={handleTodoChange} />
+                <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleTodoChange}>リセット</button>
                 </p>
                 <p>
                 <label >タイトル:</label>  
-                <input style={{marginLeft: "50px", width: "200px"}} ref={title} defaultValue={todo.title} />
+                <input style={{marginLeft: "48px", width: "200px"}} name="title" value={todoUpdate.title} onChange={handleTodoChange} />
+                <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleTodoChange}>リセット</button>
                 </p>
                 <label>もう終わった?</label>
                 <p>
-                <input type="checkbox" defaultValue={todo.completed}/>
-                <button className="button-done" onClick={handleCompletedClick}>DONE</button>
-                <button className="button-undone" style={{marginLeft: "16px"}} onClick={handleInCompletedClick}>UNDONE</button>
+                <button className="button-done" onClick={handleCompletedClick}>もう終わった</button>
+                <button className="button-undone" style={{marginLeft: "16px"}} onClick={handleInCompletedClick}>まだできてない</button>
                 </p>
                 <h3 style={{ color: renderColorCompleted(todo.completed) }}>{checkCompleted(todo.completed)}</h3>
                 <button className="button" onClick={handleConfirmClick}>確認</button>
-                <button className="button-del" style={{marginTop: "12px", marginLeft: "10px"}} onClick={() => onDeleteTodo(todo.id)}>削除</button>
-                <button className="button-del" style={{paddingTop: "14px", marginLeft: "16px", fontSize:10}} onClick={onCancel}>キャンセル</button>
+                <button className="button-del" style={{marginTop: "16px", marginLeft: "14px"}} onClick={() => onDeleteTodo(todo.id)}>削除</button>
+                <button className="button-del" style={{marginTop: "16px", marginLeft: "16px"}} onClick={onCancel}>キャンセル</button>
             </div>
             </article>
         </header>

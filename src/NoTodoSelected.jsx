@@ -5,7 +5,7 @@ export default function NoTodoSelected({onStartAddTodo}) {
         <div>
             <p>Bấm nút này để tạo mới một To-Do nhé</p>
             <p>
-                <Button onClick={onStartAddTodo}>新規作成</Button>
+                <button className="button" onClick={onStartAddTodo}>新規作成</button>
             </p>
         </div>
     )

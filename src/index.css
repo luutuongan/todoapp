@@ -1,12 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Lato:wght@400;700&display=swap');
+@import url(https://fonts.googleapis.com/earlyaccess/notosansjp.css);
+@import url(https://fonts.googleapis.com/earlyaccess/notosansjapanese.css);
 
 * {
   box-sizing: border-box;
 }
-
+.NotoSansJP {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 100%;
+}
+.NotoSansJapanese {
+  font-family: 'Noto Sans Japanese', sans-serif;
+  font-size: 100%;
+}
 body {
   margin: 0;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(#29251c, #2c2306);
@@ -274,7 +283,7 @@ h1 {
   border: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   padding: 1rem;
-  width: 80%;
+  width: 20%;
   max-width: 40rem;
   animation: fade-slide-up 0.3s ease-out forwards;
 }

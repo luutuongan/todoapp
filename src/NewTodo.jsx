@@ -1,11 +1,34 @@
-import { useRef } from "react";
-import Modal from "./Modal";
-import Input from "./Input"
-import Button from "./Button";
+import { useEffect, useState, useRef } from "react";
+import Modal from "./ModalAlert";
+
 export default function NewTodo({onAddTodo, onCancel}) {
-    const userId = useRef();
-    const id = useRef();
-    const title = useRef();
+  function handleConfirmClick() {
+    if (window.confirm("Bạn có chắc chắn muốn thực hiện hành động này?")) {
+      handleSave();
+    } else {
+      console.log("Hành động đã bị hủy!");
+    }
+  }
+
+  const [todoCreated, setTodoState] = useState({
+    id: undefined,
+    userId: undefined,
+    title: ""
+  });
+
+  const handleTodoChange = (event) => {
+    const { name, value } = event.target;
+    console.log("event.target")
+    console.log(event.target.value)
+    console.log("prev state:")
+    console.log(todoCreated)
+    setTodoState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    console.log("new state:")
+    console.log(todoCreated)
+  };
     const modalValidateExistedID = useRef();
     const modalValidateID = useRef();
 
@@ -15,9 +38,9 @@ export default function NewTodo({onAddTodo, onCancel}) {
       }
 
     function handleSave() {
-        const enteredUserId = userId.current.value;
-        const enteredId = id.current.value;
-        const enteredTitle = title.current.value;
+      const enteredId = parseInt(todoCreated.id);
+        const enteredUserId = parseInt(todoCreated.userId);
+        const enteredTitle = todoCreated.title;
         const enteredCompleted = false
 
         if (!validateNumber(enteredId) || !validateNumber(enteredUserId)) {
@@ -31,32 +54,39 @@ export default function NewTodo({onAddTodo, onCancel}) {
             title: enteredTitle,
             completed: enteredCompleted
         })
+    
+
     }
 
     return (
         <>
-            <Modal ref={modalValidateID} buttonCaption="OK">
+            <Modal ref={modalValidateID} buttonCaption="確認">
                 <h2>検証</h2>
-                <p>ID is only in number !!!</p>
+                <p>Vui lòng nhập ID dưới dạng số !!!</p>
             </Modal>
 
             <div>
                 <article className="todo-item">
                 <div>
+                    <p>Vui lòng điền những thông tin dưới đây</p>
                     <p>
                     <label>タスク ID:</label>
-                    <input style={{marginLeft: "46px", width: "200px"}} ref={id} />
+                    <input style={{marginLeft: "54px", width: "200px"}} name="id" value={todoCreated.id} onChange={handleTodoChange} placeholder="vui lòng nhập dạng số"/>
+                    <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleTodoChange}>リセット</button>
                     </p>
                     <p>
                     <label>ユーザー ID:</label>
-                    <input style={{marginLeft: "30px", width: "200px"}} ref={userId} />
+                    <input style={{marginLeft: "38px", width: "200px"}} name="userId" value={todoCreated.userId} onChange={handleTodoChange} placeholder="vui lòng nhập dạng số"/>
+                    <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleTodoChange}>リセット</button>
                     </p>
                     <p>
                     <label>タイトル:</label>
-                    <input style={{marginLeft: "50px", width: "200px"}} ref={title} />
+                    <input style={{marginLeft: "58px", width: "200px"}} name="title" value={todoCreated.title} onChange={handleTodoChange}/>
+                    <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleTodoChange}>リセット</button>
                     </p>
-                    <button className="button" onClick={handleSave}>確認</button>
-                    <button className="button-del" style={{paddingTop: "14px", marginLeft: "16px", fontSize:10}} onClick={onCancel}>キャンセル</button>
+                    <button className="button" style={{marginTop: "16px", marginLeft: "14px"}} onClick={handleConfirmClick}>確認</button>
+                    
+                    <button className="button-del" style={{marginTop: "16px", marginLeft: "16px"}} onClick={onCancel}>キャンセル</button>
                 </div>
                 </article>
             </div>
