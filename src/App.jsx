@@ -205,7 +205,7 @@ function App() {
                 <p>ID To-Do đã tồn tại, hãy nhập số khác !!!</p>
       </Modal>
       <Modal ref={modalCongrats} buttonCaption="確認">
-                <h2>検証</h2>
+                <h2>通知</h2>
                 <p>Thao tác thành công</p>
       </Modal>
       <Todos todos={todosState.todos}

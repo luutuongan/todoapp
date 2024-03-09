@@ -20,7 +20,7 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
     }
    const handleEdit = () => {
     console.log("handle edit")
-    setEditState((prevState) => {
+    setEditState(() => {
         return {
           isCompleted: todo.completed,
           isEditing: true
@@ -30,29 +30,30 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
 
    const handleSubmit = () => {
      //e.preventDefault();
-     handleResetUserId();
-     handleResetTitle();
+    //  handleResetUserId();
+    //  handleResetTitle();
      setEditState(() => {
         return {
           isCompleted: todo.completed,
           isEditing: false
         }
-      })
-      
+      }) 
    }
 
-//    const handleSubmitAfterEdit = () => {
-//     setEditState((prevState) => {
-//         return {
-//           isCompleted: prevState.isCompleted,
-//           isEditing: false
-//         }
-//       })
-//    }
+   const handleCancel = () => {
+    //e.preventDefault();
+    handleResetUserId();
+    handleResetTitle();
+    setEditState(() => {
+       return {
+         isCompleted: todo.completed,
+         isEditing: false
+       }
+     }) 
+  }
 
    console.log("selected to-do:")
   //  console.log(todo)
-   const modalConfirm = useRef();
    const modalValidate = useRef();
    const [todoUpdate, setTodoState] = useState({
      userId: todo.userId,
@@ -105,8 +106,6 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
   };
 
    const id = todo.id;
-   
-   let enteredCompleted = todo.completed;
 
    function handleConfirmClick() {
        if (window.confirm("Bạn có chắc chắn muốn thực hiện hành động này?")) {
@@ -118,23 +117,7 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
 
     function handleCancelClick() {
        if (window.confirm("Bạn có chắc chắn muốn thực hiện hành động này?")) {
-         handleSubmit();
-       } else {
-         console.log("Hành động đã bị hủy!");
-       }
-     }
-   
-     function handleCompletedClick() {
-       if (window.confirm("Bạn có chắc chắn muốn thực hiện hành động này?")) {
-         handleCompleted();
-       } else {
-         console.log("Hành động đã bị hủy!");
-       }
-     }
-   
-     function handleInCompletedClick() {
-       if (window.confirm("Bạn có chắc chắn muốn thực hiện hành động này?")) {
-         handleInCompleted();
+         handleCancel();
        } else {
          console.log("Hành động đã bị hủy!");
        }
@@ -148,7 +131,6 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
           isEditing: true
         }
       })
-         
    }
 
    function handleInCompleted() {
@@ -158,7 +140,6 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
           isEditing: true
         }
       })
-         
    }
 
    function handleSave() {
@@ -166,8 +147,7 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
        var enteredTitle = todoUpdate.title;
        console.log("start handle save")
        console.log(todo)
-       console.log("entered userId test")
-       const enteredId = todo.id;  
+       console.log("entered userId test") 
        
        function validateNumber(input) {
            const regex = /^\d+$/; // Regular expression for digits only
@@ -195,7 +175,7 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
 
        onEditTodo({
            userId: parseInt(enteredUserId),
-           id: enteredId,
+           id: todo.id,
            title: enteredTitle,
            completed: editState.isCompleted
        })
@@ -210,18 +190,13 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
             <h2>検証</h2>
             <p>Vui lòng nhập ID dưới dạng số !!!</p>
         </Modal>
-        <Modal ref={modalConfirm} buttonCaption="確認">
-            <h2>検証</h2>
-            <p>ARE YOU SURE</p>
-        </Modal>
     <div>
         <header>
         <article>
         <div>
                 <p>                    
                 <label style={{marginLeft: "-179px"}}>タスク ID:</label>     
-                <label style={{marginLeft: "106px", fontWeight:"bolder"}}>#{todo.id}</label>
-                        
+                <label style={{marginLeft: "106px", fontWeight:"bolder"}}>#{todo.id}</label>       
                 </p>
                 <p>
                 <label >ユーザー ID:</label>
