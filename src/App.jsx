@@ -11,6 +11,7 @@ function getMultipleRandom(arr, num) {
 }
 
 function App() {
+  
   const modalValidateExistedID = useRef();
   const modalCongrats = useRef();
   //const fetchedTodos = localStorage.getItem('fetchedTodos')
@@ -112,11 +113,12 @@ function App() {
   function handleAddTodo(todoData) {
     console.log("find existing")
     
-    const existedTodo = {
+    const createdTodo = {
       ...todoData,
     }
-    console.log(existedTodo)
-    if ((todosState.todos.find(todo => todo.id === existedTodo.id)) === undefined) {
+    console.log(createdTodo)
+    if ((todosState.todos.find(todo => todo.id === createdTodo.id)) === undefined) {
+
     setTodosState(prevState => {
       const newTodo = {
         ...todoData,

@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import Modal from "./Modal";
 
 export default function NewTodo({onAddTodo, onCancel}) {
+  const modalUserNotExist = useRef();
   function handleConfirmClick() {
     if (window.confirm("Bạn có chắc chắn muốn thực hiện hành động này?")) {
       handleSave();
@@ -66,7 +67,7 @@ export default function NewTodo({onAddTodo, onCancel}) {
     console.log(todoCreated)
   };
 
-    const modalValidateExistedID = useRef();
+    
     const modalValidateID = useRef();
 
     function validateNumber(input) {
@@ -85,6 +86,11 @@ export default function NewTodo({onAddTodo, onCancel}) {
             return;
         }
 
+        if ((enteredUserId < 1) || (enteredUserId > 10)) {
+          modalUserNotExist.current.open();
+          return;
+         }
+
         onAddTodo({
             userId: parseInt(enteredUserId),
             id: parseInt(enteredId),
@@ -101,7 +107,10 @@ export default function NewTodo({onAddTodo, onCancel}) {
                 <h2>検証</h2>
                 <p>Vui lòng nhập ID dưới dạng số !!!</p>
             </Modal>
-
+            <Modal ref={modalUserNotExist} buttonCaption="確認">
+            <h2>検証</h2>
+            <p>User không tồn tại !!!</p>
+            </Modal>
             <div>
                 <article className="todo-item">
                 <div>
@@ -109,17 +118,17 @@ export default function NewTodo({onAddTodo, onCancel}) {
                     <p>
                     <label>タスク ID:</label>
                     <input style={{marginLeft: "54px", width: "200px"}} name="id" value={todoCreated.id} onChange={handleTodoChange} placeholder="vui lòng nhập dạng số"/>
-                    <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleResetId}>リセット</button>
+                    <button className="text-button" style={{marginLeft: "16px", fontSize:14}} onClick={handleResetId}>リセット</button>
                     </p>
                     <p>
                     <label>ユーザー ID:</label>
                     <input style={{marginLeft: "38px", width: "200px"}} name="userId" value={todoCreated.userId} onChange={handleTodoChange} placeholder="vui lòng nhập dạng số"/>
-                    <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleResetUserId}>リセット</button>
+                    <button className="text-button" style={{marginTop: "16px", marginLeft: "16px", fontSize:14}} onClick={handleResetUserId}>リセット</button>
                     </p>
                     <p>
                     <label>タイトル:</label>
-                    <textarea style={{marginLeft: "58px", width: "200px", marginTop:"18px"}} name="title" value={todoCreated.title} onChange={handleTodoChange} placeholder="có thể nhập tùy thích"/>
-                    <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleResetTitle}>リセット</button>
+                    <textarea style={{marginLeft: "57px", width: "200px", marginTop:"18px"}} name="title" value={todoCreated.title} onChange={handleTodoChange} placeholder="có thể nhập tùy thích"/>
+                    <button className="text-button" style={{marginLeft: "16px", fontSize:14}} onClick={handleResetTitle}>リセット</button>
                     </p>
                     <button className="button" style={{marginTop: "16px", marginLeft: "14px"}} onClick={handleConfirmClick}>確認</button>
                     

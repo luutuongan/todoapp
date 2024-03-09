@@ -55,6 +55,7 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
    console.log("selected to-do:")
   //  console.log(todo)
    const modalValidate = useRef();
+   const modalUserNotExist = useRef();
    const [todoUpdate, setTodoState] = useState({
      userId: todo.userId,
      title: todo.title
@@ -167,6 +168,10 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
                modalValidate.current.open();
                return;
            }
+           if ((enteredUserId < 1) || (enteredUserId > 10)) {
+            modalUserNotExist.current.open();
+            return;
+           }
        }
        
        if (todoUpdate.title !== "") {
@@ -190,23 +195,27 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
             <h2>検証</h2>
             <p>Vui lòng nhập User ID dưới dạng số !!!</p>
         </Modal>
+        <Modal ref={modalUserNotExist} buttonCaption="確認">
+            <h2>検証</h2>
+            <p>User không tồn tại !!!</p>
+        </Modal>
     <div>
         <header>
         <article>
         <div>
                 <p>                    
-                <label style={{marginLeft: "-179px"}}>タスク ID:</label>     
-                <label style={{marginLeft: "106px", fontWeight:"bolder"}}>#{todo.id}</label>       
+                <label>タスク ID:</label>     
+                <label style={{marginLeft: "112px", marginRight:"170px", fontWeight:"bolder"}}>#{todo.id}</label>       
                 </p>
                 <p>
                 <label >ユーザー ID:</label>
-                <input style={{marginLeft: "23px", width: "200px", marginTop:"28px"}} name="userId" value={todoUpdate.userId} onChange={handleTodoChange} />
-                <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleResetUserId}>リセット</button>
+                <input style={{marginLeft: "20px", width: "200px", marginTop:"28px"}} name="userId" value={todoUpdate.userId} onChange={handleTodoChange} />
+                <button className="text-button" style={{marginLeft: "16px", fontSize:14}} onClick={handleResetUserId}>リセット</button>
                 </p>
                 <p>
                 <label >タイトル:</label>  
-                <textarea style={{marginLeft: "41px", width: "200px", marginTop:"18px"}} name="title" value={todoUpdate.title} onChange={handleTodoChange} />
-                <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleResetTitle}>リセット</button>
+                <textarea style={{marginLeft: "39px", width: "200px", marginTop:"18px"}} name="title" value={todoUpdate.title} onChange={handleTodoChange} />
+                <button className="text-button" style={{marginLeft: "16px", fontSize:14}} onClick={handleResetTitle}>リセット</button>
                 </p>
                 <label>もう終わった?</label>
                 <p>
