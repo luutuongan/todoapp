@@ -3,10 +3,7 @@ import Header from './Header.jsx';
 import NoTodoSelected from './NoTodoSelected.jsx';
 import Todos from './Todos.jsx'
 import NewTodo from './NewTodo.jsx';
-import SelectedTodo from './SelectedTodo.jsx';
-import Button from "./Button.jsx";
-
-import ModalAlert from "./ModalAlert.jsx";
+import Modal from "./Modal.jsx";
 function getMultipleRandom(arr, num) {
   const shuffled = [...arr].sort(() => 0.5 - Math.random());
 
@@ -103,6 +100,15 @@ function App() {
     })
   }
 
+  function handleCancelTodo() {
+    setTodosState(prevState => {
+      return {
+        ...prevState,
+        addTodoFlag: false
+      }
+    })
+  }
+
   function handleAddTodo(todoData) {
     console.log("find existing")
     
@@ -194,14 +200,14 @@ function App() {
       <p>Bấm nút này nếu bạn muốn lấy thêm chục con To-Do mẫu nữa từ API nhé</p>
       <button className="button-del" visibility= "hidden" onClick={handleFetchClick}>APIからさらに10個のアイテムを取得します</button>
       {contentAddTodo}
-      <ModalAlert ref={modalValidateExistedID} buttonCaption="確認">
+      <Modal ref={modalValidateExistedID} buttonCaption="確認">
                 <h2>検証</h2>
                 <p>ID To-Do đã tồn tại, hãy nhập số khác !!!</p>
-      </ModalAlert>
-      <ModalAlert ref={modalCongrats} buttonCaption="確認">
+      </Modal>
+      <Modal ref={modalCongrats} buttonCaption="確認">
                 <h2>検証</h2>
                 <p>Thao tác thành công</p>
-      </ModalAlert>
+      </Modal>
       <Todos todos={todosState.todos}
       onEditTodo={handleEditTodo}
       onDeleteTodo={handleDeleteClick}                 

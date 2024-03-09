@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import ModalAlert from "./ModalAlert";
+import Modal from "./Modal";
 export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
 
     const [editState, setEditState] = useState({
@@ -34,7 +34,7 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
      handleResetTitle();
      setEditState(() => {
         return {
-          isCompleted: todo.isCompleted,
+          isCompleted: todo.completed,
           isEditing: false
         }
       })
@@ -198,14 +198,14 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
     if (editState.isEditing) {
         return (
         <>
-        <ModalAlert ref={modalValidate} buttonCaption="確認">
+        <Modal ref={modalValidate} buttonCaption="確認">
             <h2>検証</h2>
             <p>Vui lòng nhập ID dưới dạng số !!!</p>
-        </ModalAlert>
-        <ModalAlert ref={modalConfirm} buttonCaption="確認">
+        </Modal>
+        <Modal ref={modalConfirm} buttonCaption="確認">
             <h2>検証</h2>
             <p>ARE YOU SURE</p>
-        </ModalAlert>
+        </Modal>
     <div>
         <header>
         <article className="todo-item">
@@ -233,7 +233,7 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
                 <h3 style={{ color: renderColorCompleted(editState.isCompleted) }}>{checkCompleted(editState.isCompleted)}</h3>
                 <button className="button" onClick={handleConfirmClick}>確認</button>
                 <button className="button-del" style={{marginTop: "16px", marginLeft: "14px"}} onClick={() => onDeleteTodo(todo.id)}>削除</button>
-                <button className="button-del" style={{marginTop: "16px", marginLeft: "16px"}} onClick={handleSubmit}>閉じる</button>
+                <button className="button-del" style={{marginTop: "16px", marginLeft: "16px"}} onClick={handleSubmit}>キャンセル</button>
             </div>
             </article>
         </header>

@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from "react";
-import Modal from "./ModalAlert";
+import { useState, useRef } from "react";
+import Modal from "./Modal";
 
 export default function NewTodo({onAddTodo, onCancel}) {
   function handleConfirmClick() {

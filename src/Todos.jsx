@@ -1,5 +1,4 @@
 import TodoItem from "./TodoItem";
-import SelectedTodo from "./SelectedTodo";
 
 export default function Todos({todos, onEditTodo, onDeleteTodo}) {
 
