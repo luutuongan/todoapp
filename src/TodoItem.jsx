@@ -22,7 +22,7 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
     console.log("handle edit")
     setEditState((prevState) => {
         return {
-          isCompleted: prevState.isCompleted,
+          isCompleted: todo.completed,
           isEditing: true
         }
       })
@@ -115,6 +115,14 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
          console.log("Hành động đã bị hủy!");
        }
      }
+
+    function handleCancelClick() {
+       if (window.confirm("Bạn có chắc chắn muốn thực hiện hành động này?")) {
+         handleSubmit();
+       } else {
+         console.log("Hành động đã bị hủy!");
+       }
+     }
    
      function handleCompletedClick() {
        if (window.confirm("Bạn có chắc chắn muốn thực hiện hành động này?")) {
@@ -192,7 +200,7 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
            completed: editState.isCompleted
        })
 
-       handleSubmitAfterEdit();
+       handleSubmit();
    }
    const displayContent = () => {
     if (editState.isEditing) {
@@ -208,32 +216,32 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
         </Modal>
     <div>
         <header>
-        <article className="todo-item">
+        <article>
         <div>
                 <p>                    
-                <label style={{marginLeft: "-176px"}}>タスク ID:</label>     
-                <label style={{marginLeft: "46px"}}>#{todo.id}</label>
-                <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14, color:"#1d1a16", pointerEvents: "none"}}>リセット</button>        
+                <label style={{marginLeft: "-179px"}}>タスク ID:</label>     
+                <label style={{marginLeft: "106px", fontWeight:"bolder"}}>#{todo.id}</label>
+                        
                 </p>
                 <p>
                 <label >ユーザー ID:</label>
-                <input style={{marginLeft: "30px", width: "200px"}} name="userId" value={todoUpdate.userId} onChange={handleTodoChange} />
+                <input style={{marginLeft: "23px", width: "200px"}} name="userId" value={todoUpdate.userId} onChange={handleTodoChange} />
                 <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleResetUserId}>リセット</button>
                 </p>
                 <p>
                 <label >タイトル:</label>  
-                <input style={{marginLeft: "48px", width: "200px"}} name="title" value={todoUpdate.title} onChange={handleTodoChange} />
+                <textarea style={{marginLeft: "41px", width: "200px", marginTop:"14px"}} name="title" value={todoUpdate.title} onChange={handleTodoChange} />
                 <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleResetTitle}>リセット</button>
                 </p>
                 <label>もう終わった?</label>
                 <p>
                 <button className="button-done" onClick={handleCompleted}>もう終わった</button>
-                <button className="button-undone" style={{marginLeft: "16px"}} onClick={handleInCompleted}>まだできてない</button>
+                <button className="button-undone" style={{marginLeft: "18px", marginTop:"14px"}} onClick={handleInCompleted}>まだできてない</button>
                 </p>
-                <h3 style={{ color: renderColorCompleted(editState.isCompleted) }}>{checkCompleted(editState.isCompleted)}</h3>
-                <button className="button" onClick={handleConfirmClick}>確認</button>
-                <button className="button-del" style={{marginTop: "16px", marginLeft: "14px"}} onClick={() => onDeleteTodo(todo.id)}>削除</button>
-                <button className="button-del" style={{marginTop: "16px", marginLeft: "16px"}} onClick={handleSubmit}>キャンセル</button>
+                <h3 style={{marginTop: "30px", color: renderColorCompleted(editState.isCompleted) }}>{checkCompleted(editState.isCompleted)}</h3>
+                <button className="button" style={{marginTop: "14px"}} onClick={handleConfirmClick}>確認</button>
+                <button className="button-del" style={{marginTop: "14px", marginLeft: "14px"}} onClick={() => onDeleteTodo(todo.id)}>削除</button>
+                <button className="button-del" style={{marginTop: "14px", marginLeft: "16px"}} onClick={handleCancelClick}>キャンセル</button>
             </div>
             </article>
         </header>
