@@ -5,7 +5,7 @@ export default function Header() {
             <h1>To-Do アプリ</h1>
         </div>
         <div>
-            <nav style={{backgroundColor: "#333", color: "white", fontWeight: "bold", fontSize: "30px"}}>ようこそ AnLT</nav>
+            <nav style={{color: "#d9e2f1", fontWeight: "bold", fontSize: "30px"}}>ようこそ AnLT</nav>
         </div>
     </header>
     )

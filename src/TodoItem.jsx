@@ -32,9 +32,9 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
      //e.preventDefault();
     //  handleResetUserId();
     //  handleResetTitle();
-     setEditState(() => {
+     setEditState((prevState) => {
         return {
-          isCompleted: todo.completed,
+          isCompleted: prevState.isCompleted,
           isEditing: false
         }
       }) 
@@ -188,7 +188,7 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
         <>
         <Modal ref={modalValidate} buttonCaption="確認">
             <h2>検証</h2>
-            <p>Vui lòng nhập ID dưới dạng số !!!</p>
+            <p>Vui lòng nhập User ID dưới dạng số !!!</p>
         </Modal>
     <div>
         <header>
