@@ -225,12 +225,12 @@ export default function TodoItem({todo, onEditTodo, onDeleteTodo}) {
                 </p>
                 <p>
                 <label >ユーザー ID:</label>
-                <input style={{marginLeft: "23px", width: "200px"}} name="userId" value={todoUpdate.userId} onChange={handleTodoChange} />
+                <input style={{marginLeft: "23px", width: "200px", marginTop:"28px"}} name="userId" value={todoUpdate.userId} onChange={handleTodoChange} />
                 <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleResetUserId}>リセット</button>
                 </p>
                 <p>
                 <label >タイトル:</label>  
-                <textarea style={{marginLeft: "41px", width: "200px", marginTop:"14px"}} name="title" value={todoUpdate.title} onChange={handleTodoChange} />
+                <textarea style={{marginLeft: "41px", width: "200px", marginTop:"18px"}} name="title" value={todoUpdate.title} onChange={handleTodoChange} />
                 <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleResetTitle}>リセット</button>
                 </p>
                 <label>もう終わった?</label>

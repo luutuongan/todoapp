@@ -19,7 +19,9 @@ export default function Todos({todos, onEditTodo, onDeleteTodo}) {
     return (
       <div>
         <h2>TO-DO の 一覧</h2>
-        <p>Hướng dẫn: với mỗi một To-Do, nút bên trái để Sửa, nút bên phải để xóa nhé</p>
+        <p>Hướng dẫn: với mỗi một To-Do, bấm nút bên TRÁI để SỬA, nút bên PHẢI để XÓA nhé</p>
+        <p>Để đánh dấu To-Do đã làm xong, hãy bấm nút màu XANH</p>
+        <p>Để đánh dấu chưa làm xong, hãy bấm nút màu ĐỎ nhé</p>
         <ul id="todos">{todos.sort((a, b) => {
               if (a.title < b.title) {
                 return -1;

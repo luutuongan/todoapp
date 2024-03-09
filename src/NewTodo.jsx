@@ -105,7 +105,7 @@ export default function NewTodo({onAddTodo, onCancel}) {
             <div>
                 <article className="todo-item">
                 <div>
-                    <p>Vui lòng điền những thông tin dưới đây</p>
+                    <p>Cùng thêm việc cần làm nào</p>
                     <p>
                     <label>タスク ID:</label>
                     <input style={{marginLeft: "54px", width: "200px"}} name="id" value={todoCreated.id} onChange={handleTodoChange} placeholder="vui lòng nhập dạng số"/>
@@ -118,7 +118,7 @@ export default function NewTodo({onAddTodo, onCancel}) {
                     </p>
                     <p>
                     <label>タイトル:</label>
-                    <input style={{marginLeft: "58px", width: "200px"}} name="title" value={todoCreated.title} onChange={handleTodoChange}/>
+                    <textarea style={{marginLeft: "58px", width: "200px", marginTop:"18px"}} name="title" value={todoCreated.title} onChange={handleTodoChange} placeholder="có thể nhập tùy thích"/>
                     <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleResetTitle}>リセット</button>
                     </p>
                     <button className="button" style={{marginTop: "16px", marginLeft: "14px"}} onClick={handleConfirmClick}>確認</button>
