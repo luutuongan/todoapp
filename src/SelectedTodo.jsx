@@ -134,7 +134,7 @@ export default function SelectedTodo({todo, onEditTodo, onDeleteTodo, onCancel})
     return (
     <>
 
-        <ModalAlert ref={modalValidate} buttonCaption="確認">
+    <ModalAlert ref={modalValidate} buttonCaption="確認">
         <h2>検証</h2>
         <p>Vui lòng nhập ID dưới dạng số !!!</p>
     </ModalAlert>

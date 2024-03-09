@@ -18,7 +18,7 @@ function App() {
   const modalCongrats = useRef();
   //const fetchedTodos = localStorage.getItem('fetchedTodos')
   const [todosState, setTodosState] = useState({
-    selectedTodoId: undefined,
+    addTodoFlag: false,
     todos: []
   })
   useEffect(() => {
@@ -98,7 +98,7 @@ function App() {
     setTodosState(prevState => {
       return {
         ...prevState,
-        selectedTodoId: null
+        addTodoFlag: true
       }
     })
   }
@@ -117,7 +117,7 @@ function App() {
       }
       return {
         ...prevState,
-        selectedTodoId: undefined,
+        addTodoFlag: false,
         todos: [...prevState.todos, newTodo],
       }
     })
@@ -131,8 +131,6 @@ function App() {
     })
     modalValidateExistedID.current.open()
   }
-    
-
   }
 
   function handleEditTodo(todoData) {
@@ -166,44 +164,25 @@ function App() {
     setTodosState((prevState) => {
       return {
         ...prevState,
-        selectedTodoId: undefined,
+        addTodoFlag: false,
         todos: prevState.todos.filter((todo) => 
           todo.id !== id
         )
       }
     })
+    modalCongrats.current.open()
   }
-
-  function handleSelectTodo(todo) {
-      setTodosState((prevState) => {
-        console.log(todosState)
-        return {
-          ...prevState,
-          selectedTodoId: todo.id
-        }
-      })
-  }
-
-  function handleCancelTodo() {
-    setTodosState((prevState) => {
-      return {
-        ...prevState,
-        selectedTodoId: undefined
-      }
-    })
-}
+  
+    
 
   console.log("to-do state:")
   console.log(todosState)
-  const selectedTodo = todosState.todos.find(todo => todo.id === todosState.selectedTodoId)
-  //console.log(selectedTodo)
-  let content = <SelectedTodo todo={selectedTodo} onEditTodo={handleEditTodo} onDeleteTodo={handleDeleteClick} onCancel={handleCancelClick}/>;
-  //let content;
 
-  if (todosState.selectedTodoId === null) {
-    content = <NewTodo onAddTodo={handleAddTodo} onCancel={handleCancelClick}/>
-  } else if (todosState.selectedTodoId === undefined) {
-    content = <NoTodoSelected onStartAddTodo={handleStartAddTodo}/>;
+  var contentAddTodo;
+  if (todosState.addTodoFlag) {
+    contentAddTodo = <NewTodo onAddTodo={handleAddTodo} onCancel={handleCancelClick}/>
+  } else {
+    contentAddTodo = <NoTodoSelected onStartAddTodo={handleStartAddTodo}/>;
   }
 
   return (
@@ -214,7 +193,7 @@ function App() {
       <p>Mặc định sẽ có sẵn 10 To-Do mẫu sắp xếp theo thứ tự từ điển,</p>
       <p>Bấm nút này nếu bạn muốn lấy thêm chục con To-Do mẫu nữa từ API nhé</p>
       <button className="button-del" visibility= "hidden" onClick={handleFetchClick}>APIからさらに10個のアイテムを取得します</button>
-      {content}
+      {contentAddTodo}
       <ModalAlert ref={modalValidateExistedID} buttonCaption="確認">
                 <h2>検証</h2>
                 <p>ID To-Do đã tồn tại, hãy nhập số khác !!!</p>

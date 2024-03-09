@@ -11,8 +11,8 @@ export default function NewTodo({onAddTodo, onCancel}) {
   }
 
   const [todoCreated, setTodoState] = useState({
-    id: undefined,
-    userId: undefined,
+    id: "",
+    userId: "",
     title: ""
   });
 
@@ -29,6 +29,43 @@ export default function NewTodo({onAddTodo, onCancel}) {
     console.log("new state:")
     console.log(todoCreated)
   };
+
+  const handleResetId = (event) => {
+    console.log("reset !!!")
+    console.log("prev state:")
+    console.log(todoCreated)
+    setTodoState((prevState) => ({
+      ...prevState,
+      id: ""
+    }));
+    console.log("new state:")
+    console.log(todoCreated)
+  };
+
+  const handleResetUserId = (event) => {
+    console.log("reset !!!")
+    console.log("prev state:")
+    console.log(todoCreated)
+    setTodoState((prevState) => ({
+      ...prevState,
+      userId: ""
+    }));
+    console.log("new state:")
+    console.log(todoCreated)
+  };
+
+  const handleResetTitle = (event) => {
+    console.log("reset !!!")
+    console.log("prev state:")
+    console.log(todoCreated)
+    setTodoState((prevState) => ({
+      ...prevState,
+      title: ""
+    }));
+    console.log("new state:")
+    console.log(todoCreated)
+  };
+
     const modalValidateExistedID = useRef();
     const modalValidateID = useRef();
 
@@ -72,17 +109,17 @@ export default function NewTodo({onAddTodo, onCancel}) {
                     <p>
                     <label>タスク ID:</label>
                     <input style={{marginLeft: "54px", width: "200px"}} name="id" value={todoCreated.id} onChange={handleTodoChange} placeholder="vui lòng nhập dạng số"/>
-                    <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleTodoChange}>リセット</button>
+                    <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleResetId}>リセット</button>
                     </p>
                     <p>
                     <label>ユーザー ID:</label>
                     <input style={{marginLeft: "38px", width: "200px"}} name="userId" value={todoCreated.userId} onChange={handleTodoChange} placeholder="vui lòng nhập dạng số"/>
-                    <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleTodoChange}>リセット</button>
+                    <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleResetUserId}>リセット</button>
                     </p>
                     <p>
                     <label>タイトル:</label>
                     <input style={{marginLeft: "58px", width: "200px"}} name="title" value={todoCreated.title} onChange={handleTodoChange}/>
-                    <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleTodoChange}>リセット</button>
+                    <button className="text-button" style={{paddingTop: "14px", marginLeft: "16px", fontSize:14}} onClick={handleResetTitle}>リセット</button>
                     </p>
                     <button className="button" style={{marginTop: "16px", marginLeft: "14px"}} onClick={handleConfirmClick}>確認</button>
                     
